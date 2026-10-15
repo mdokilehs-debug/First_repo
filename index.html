@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html lang="my">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>မြန်မာကုဒ်</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f2f5fa;
+      text-align: center;
+      padding: 30px 15px;
+      color: #20304a;
+    }
+    .app {
+      max-width: 500px;
+      margin: 30px auto;
+      padding: 25px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 18px #0001;
+    }
+    textarea {
+      width: 95%;
+      height: 130px;
+      padding: 10px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    button {
+      padding: 12px 24px;
+      margin: 12px;
+      background: #176b45;
+      color: white;
+      border: 0;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+    #result {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      background: #f2f5fa;
+      padding: 12px;
+      border-radius: 8px;
+      min-height: 25px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>မြန်မာကုဒ် 🇲🇲</h1>
+    <p>မင်္ဂလာပါ။ မြန်မာကုဒ် ပရောဂျက်မှ ကြိုဆိုပါတယ်။</p>
+    <h3>စာရေးစမ်းသပ်ရန်</h3>
+    <textarea id="mytext" placeholder="ဒီနေရာမှာ စာရိုက်ပါ..."></textarea>
+    <br>
+    <button onclick="showText()">စမ်းကြည့်မယ်</button>
+    <h3>ရလဒ်</h3>
+    <div id="result">ဒီနေရာမှာ ရလဒ်ပေါ်ပါမယ်။</div>
+  </div>
+  <script>
+    function showText() {
+      document.getElementById("result").textContent =
+        document.getElementById("mytext").value;
+    }
+  </script>
+</body>
+</html>
