@@ -84,5 +84,17 @@ function loadHTMLFile(event){
   reader.readAsText(file);
 }
 </script>
+const STORAGE_KEY = 'myanmar_code_saved';
+
+const codeBox = document.getElementById('code');
+
+codeBox.addEventListener('input', function() {
+  localStorage.setItem(STORAGE_KEY, codeBox.value);
+});
+
+const savedCode = localStorage.getItem(STORAGE_KEY);
+if (savedCode !== null) {
+  codeBox.value = savedCode;
+}
 </body>
 </html>
