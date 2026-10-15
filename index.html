@@ -36,6 +36,7 @@ label{display:block;margin:12px 0}
 </div>
 <div class="panel">
 <h3>HTML ကုဒ်ရေးရန်</h3>
+<input type="file" id="htmlFile" accept=".html,.htm,text/html" onchange="loadHTMLFile(event)">
 <textarea id="code"><h1>မင်္ဂလာပါ!</h1>
 <p>ဒါက မြန်မာကုဒ်ပါ။</p>
 <button onclick="alert('ကြိုဆိုပါတယ်!')">နှိပ်ကြည့်ပါ</button></textarea>
@@ -70,6 +71,18 @@ function saveHTML(){
   a.download = 'myanmar-code.html';
   a.click();
   URL.revokeObjectURL(url);
+}
+
+function loadHTMLFile(event){
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(){
+    document.getElementById('code').value = reader.result;
+    runCode();
+  };
+  reader.readAsText(file);
 }
 </script>
 </body>
