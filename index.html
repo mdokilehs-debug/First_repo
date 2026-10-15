@@ -68,11 +68,10 @@ function saveHTML(){
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'myanmar-code.html';
+  a.download = prompt('ဖိုင်အမည်ထည့်ပါ', 'myanmar-code.html') || 'myanmar-code.html';
   a.click();
   URL.revokeObjectURL(url);
 }
-
 function loadHTMLFile(event){
   const file = event.target.files[0];
   if (!file) return;
