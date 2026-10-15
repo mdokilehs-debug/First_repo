@@ -41,6 +41,7 @@ label{display:block;margin:12px 0}
 <button onclick="alert('ကြိုဆိုပါတယ်!')">နှိပ်ကြည့်ပါ</button></textarea>
 <button onclick="runCode()">▶ Run</button>
 <button onclick="resetCode()">Reset</button>
+<button onclick="saveHTML()">💾 Save HTML</button>
 </div>
 <div class="panel">
 <h3>ရလဒ် (Output)</h3>
@@ -60,6 +61,16 @@ document.getElementById('code').value='<h1>မင်္ဂလာပါ!</h1>\n<p
 runCode();
 }
 runCode();
+function saveHTML(){
+  const code = document.getElementById('code').value;
+  const blob = new Blob([code], {type:'text/html;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'myanmar-code.html';
+  a.click();
+  URL.revokeObjectURL(url);
+}
 </script>
 </body>
 </html>
