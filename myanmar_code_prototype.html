@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="my">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>မြန်မာကုဒ် — ပထမဆုံး စမ်းသပ်ခန်း</title>
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;background:#101522;color:#f1f5f9;font-family:system-ui,'Noto Sans Myanmar',sans-serif;padding:18px;line-height:1.6}.wrap{max-width:760px;margin:auto}h1{font-size:1.5rem;margin:0 0 6px}.sub{color:#b9c5d8;margin:0 0 18px}.panel{background:#192235;border:1px solid #34435c;border-radius:16px;padding:15px;margin:14px 0}label{display:block;font-weight:700;margin-bottom:8px}textarea{width:100%;min-height:170px;resize:vertical;background:#0b1020;color:#f8fafc;border:1px solid #465775;border-radius:10px;padding:13px;font:16px/1.7 ui-monospace,monospace}button{border:0;border-radius:10px;padding:12px 18px;font-size:1rem;font-weight:700;background:#6ee7b7;color:#052e24;margin:10px 0;cursor:pointer}.output{white-space:pre-wrap;min-height:70px;background:#0b1020;border-radius:10px;padding:13px;border:1px solid #34435c}.hint{color:#bac7d9;font-size:.92rem}.good{color:#6ee7b7}.bad{color:#fda4af}.pill{display:inline-block;border:1px solid #41516b;border-radius:999px;padding:3px 9px;font-size:.8rem;color:#cbd5e1}
+</style></head><body><main class="wrap">
+<h1>🇲🇲 မြန်မာကုဒ်</h1><p class="sub">မြန်မာလို အမိန့်ရေးပြီး စမ်းသပ်ကြည့်ပါ — ဗားရှင်း ၀.၁</p>
+<div class="panel"><span class="pill">ပထမဆုံး လုပ်ဆောင်ချက်</span><p>ဒီနမူနာက မြန်မာ Code အနည်းငယ်ကို ဖတ်ပြီး ရလဒ်ပြပေးပါတယ်။ အောက်က Code ကို ပြင်ပြီး “▶ လုပ်ဆောင်မယ်” ကို နှိပ်ပါ။</p>
+<label for="code">မြန်မာ Code</label><textarea id="code" spellcheck="false">အမည် = "မြန်မာ"
+ပြပါ("မင်္ဂလာပါ " + အမည်)
+ပြပါ("ကျွန်ုပ်၏ ပထမဆုံး မြန်မာကုဒ်ပါ။")</textarea>
+<button id="run">▶ လုပ်ဆောင်မယ်</button>
+<label for="out">ရလဒ်</label><div id="out" class="output" aria-live="polite">ဒီနေရာမှာ ရလဒ်ပေါ်လာပါမယ်။</div>
+</div>
+<div class="panel"><strong>လက်ရှိ နားလည်တဲ့ အမိန့်များ</strong><ul><li><code>အမည် = "စာသား"</code> — တန်ဖိုးသိမ်းရန်</li><li><code>ပြပါ("မင်္ဂလာပါ")</code> — စာသားပြရန်</li><li><code>ပြပါ("မင်္ဂလာပါ " + အမည်)</code> — စာသားနဲ့ သိမ်းထားတဲ့ တန်ဖိုးကို ပေါင်းပြရန်</li></ul><p class="hint">သတိပြုရန် — ဒါက စမ်းသပ်ဗားရှင်းသာ ဖြစ်ပါတယ်။ Android APK ထုတ်ပေးတဲ့စနစ် မပါသေးပါ။ နောက်အဆင့်တွေမှာ အမိန့်များ၊ UI ဖန်တီးခြင်းနဲ့ APK build စနစ်ကို တိုးချဲ့ရပါမယ်။</p></div>
+</main><script>
+const codeEl=document.getElementById('code'), out=document.getElementById('out');
+function unquote(s){s=s.trim();if((s.startsWith('"')&&s.endsWith('"'))||(s.startsWith("'")&&s.endsWith("'")))return s.slice(1,-1);throw Error('စာသားကို " " အတွင်း ထည့်ပါ။');}
+function valueOf(expr,vars){expr=expr.trim();let parts=expr.split('+').map(x=>x.trim());return parts.map(p=>{if((p.startsWith('"')&&p.endsWith('"'))||(p.startsWith("'")&&p.endsWith("'")))return p.slice(1,-1);if(Object.prototype.hasOwnProperty.call(vars,p))return String(vars[p]);throw Error('ဒီတန်ဖိုးကို မသိပါ: '+p);}).join('');}
+document.getElementById('run').addEventListener('click',()=>{let vars=Object.create(null), lines=codeEl.value.split(/\r?\n/), result=[];try{for(let i=0;i<lines.length;i++){let line=lines[i].trim();if(!line||line.startsWith('#'))continue;let m=line.match(/^([\u1000-\u109F\uAA60-\uAA7F\uA9E0-\uA9FF\w]+)\s*=\s*(.+)$/u);if(m){vars[m[1]]=valueOf(m[2],vars);continue;}m=line.match(/^ပြပါ\((.*)\)$/u);if(m){result.push(valueOf(m[1],vars));continue;}throw Error('စာကြောင်း '+(i+1)+' ကို နားမလည်ပါ: '+line);}out.textContent=result.length?result.join('\n'):'အလုပ်လုပ်ပြီးပါပြီ။ ပြသမယ့်ရလဒ် မရှိပါ။';out.className='output good';}catch(e){out.textContent='အမှား: '+e.message;out.className='output bad';}});
+</script></body></html>
