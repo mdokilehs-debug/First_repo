@@ -49,6 +49,9 @@ label{display:block;margin:12px 0}
   <h3>📁 My Projects — ကျွန်ုပ်၏ ပရောဂျက်များ</h3>
 
 <button type="button" onclick="backupProjects()">📦 Backup ထုတ်မယ်</button>
+
+<input type="file" id="backupFile" accept=".json,application/json" onchange="restoreProjects(event)">
+<button type="button" onclick="document.getElementById('backupFile').click()">📂 Backup ပြန်ယူမယ်</button>
   
   <label for="projectName">ပရောဂျက်အမည်</label>
   <input
@@ -240,6 +243,51 @@ function backupProjects() {
   URL.revokeObjectURL(url);
   alert('Backup ဖိုင် ထုတ်ပေးပြီးပါပြီ။');
   }
+
+function restoreProjects(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = function(e) {
+    try {
+      const imported = JSON.parse(e.target.result);
+
+      if (
+        !imported ||
+        typeof imported !== 'object' ||
+        Array.isArray(imported) ||
+        Object.values(imported).some(
+          code => typeof code !== 'string'
+        )
+      ) {
+        throw new Error('Invalid backup');
+      }
+
+      const projects = getProjects();
+      const merged = { ...projects, ...imported };
+
+      if (!confirm('Backup ထဲက ပရောဂျက်တွေကို ပြန်ထည့်မလား? အမည်တူရင် အဟောင်းကို အစားထိုးပါမယ်။')) {
+        return;
+      }
+
+      localStorage.setItem(
+        'myanmar_code_projects',
+        JSON.stringify(merged)
+      );
+
+      refreshProjects();
+      alert('Backup ပြန်ယူပြီးပါပြီ။');
+    } catch (error) {
+      alert('Backup ဖိုင် မမှန်ပါ။ မှန်ကန်တဲ့ JSON ဖိုင်ကို ရွေးပါ။');
+    } finally {
+      event.target.value = '';
+    }
+  };
+
+  reader.readAsText(file);
+}
 </script>
 </body>
 </html>
