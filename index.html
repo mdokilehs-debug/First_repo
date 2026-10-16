@@ -36,6 +36,15 @@ label{display:block;margin:12px 0}
 </div>
 <div class="panel">
 <h3>HTML ကုဒ်ရေးရန်</h3>
+<div style="margin: 10px 0;">
+  <label for="templateSelect">နမူနာကုဒ် ရွေးပါ</label>
+  <select id="templateSelect" onchange="loadTemplate(this.value)">
+    <option value="">-- နမူနာရွေးပါ --</option>
+    <option value="hello">မင်္ဂလာပါ စာမျက်နှာ</option>
+    <option value="about">ကိုယ့်အကြောင်း</option>
+    <option value="color">အရောင်စုံ စာမျက်နှာ</option>
+  </select>
+</div>
 <input type="file" id="htmlFile" accept=".html,.htm,text/html" onchange="loadHTMLFile(event)">
 <textarea id="code"><h1>မင်္ဂလာပါ!</h1>
 <p>ဒါက မြန်မာကုဒ်ပါ။</p>
@@ -56,6 +65,19 @@ const bg=document.getElementById('bgColor').value;
 const size=document.getElementById('txtSize').value;
 document.getElementById('preview').srcdoc=
 '<style>body{color:'+color+';background:'+bg+';font-size:'+size+';font-family:sans-serif;padding:12px}</style>'+c;
+}
+function loadTemplate(type) {
+  const templates = {
+    hello: '<h1>မင်္ဂလာပါ!</h1><p>မြန်မာကုဒ်မှ ကြိုဆိုပါတယ်။</p>',
+    about: '<h1>ကျွန်ုပ်အကြောင်း</h1><p>ကျွန်ုပ်သည် HTML ကို လေ့လာနေပါသည်။</p>',
+    color: '<h1 style="color: blue;">အရောင်စုံ စာမျက်နှာ</h1><p style="color: green;">ဒါက နမူနာစာသားပါ။</p>'
+  };
+
+  if (!templates[type]) return;
+
+  document.getElementById('code').value = templates[type];
+  localStorage.setItem('myanmar_code_saved', templates[type]);
+  runCode();
 }
 function resetCode(){
 document.getElementById('code').value='<h1>မင်္ဂလာပါ!</h1>\n<p>ဒါက မြန်မာကုဒ်ပါ။</p>';
