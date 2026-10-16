@@ -45,6 +45,33 @@ label{display:block;margin:12px 0}
     <option value="color">အရောင်စုံ စာမျက်နှာ</option>
   </select>
 </div>
+<div class="project-box">
+  <h3>📁 My Projects — ကျွန်ုပ်၏ ပရောဂျက်များ</h3>
+
+  <label for="projectName">ပရောဂျက်အမည်</label>
+  <input
+    type="text"
+    id="projectName"
+    placeholder="ဥပမာ - ကျွန်ုပ်၏ ဝဘ်ဆိုက်"
+  >
+
+  <button type="button" onclick="saveProject()">
+    💾 ပရောဂျက်သိမ်းမယ်
+  </button>
+
+  <label for="projectList">သိမ်းထားသော ပရောဂျက်များ</label>
+  <select id="projectList">
+    <option value="">-- ပရောဂျက်ရွေးပါ --</option>
+  </select>
+
+  <button type="button" onclick="openProject()">
+    📂 ပရောဂျက်ဖွင့်မယ်
+  </button>
+
+  <button type="button" onclick="deleteProject()">
+    🗑️ ပရောဂျက်ဖျက်မယ်
+  </button>
+</div>
 <input type="file" id="htmlFile" accept=".html,.htm,text/html" onchange="loadHTMLFile(event)">
 <textarea id="code"><h1>မင်္ဂလာပါ!</h1>
 <p>ဒါက မြန်မာကုဒ်ပါ။</p>
@@ -117,6 +144,83 @@ const savedCode = localStorage.getItem(STORAGE_KEY);
 if (savedCode !== null) {
   codeBox.value = savedCode;
 }
+const PROJECTS_KEY = 'myanmar_code_projects';
+
+function getProjects() {
+  try {
+    return JSON.parse(localStorage.getItem(PROJECTS_KEY) || '{}');
+  } catch (e) {
+    return {};
+  }
+}
+
+function refreshProjects() {
+  const list = document.getElementById('projectList');
+  if (!list) return;
+
+  const projects = getProjects();
+  list.innerHTML = '<option value="">-- ပရောဂျက်ရွေးပါ --</option>';
+
+  Object.keys(projects).forEach(function(name) {
+    const option = document.createElement('option');
+    option.value = name;
+    option.textContent = name;
+    list.appendChild(option);
+  });
+}
+
+function saveProject() {
+  const name = document.getElementById('projectName').value.trim();
+  const code = document.getElementById('code').value;
+
+  if (!name) {
+    alert('ပရောဂျက်အမည် အရင်ထည့်ပါ။');
+    return;
+  }
+
+  const projects = getProjects();
+  projects[name] = code;
+  localStorage.setItem(PROJECTS_KEY, JSON.stringify(projects));
+
+  refreshProjects();
+  document.getElementById('projectList').value = name;
+  alert('ပရောဂျက် သိမ်းပြီးပါပြီ။');
+}
+
+function openProject() {
+  const name = document.getElementById('projectList').value;
+  const projects = getProjects();
+
+  if (!name || !(name in projects)) {
+    alert('ဖွင့်ချင်တဲ့ ပရောဂျက်ကို ရွေးပါ။');
+    return;
+  }
+
+  document.getElementById('code').value = projects[name];
+  localStorage.setItem('myanmar_code_saved', projects[name]);
+  document.getElementById('projectName').value = name;
+  runCode();
+}
+
+function deleteProject() {
+  const name = document.getElementById('projectList').value;
+
+  if (!name) {
+    alert('ဖျက်ချင်တဲ့ ပရောဂျက်ကို ရွေးပါ။');
+    return;
+  }
+
+  if (!confirm('"' + name + '" ကို ဖျက်မှာ သေချာပါသလား?')) return;
+
+  const projects = getProjects();
+  delete projects[name];
+  localStorage.setItem(PROJECTS_KEY, JSON.stringify(projects));
+
+  refreshProjects();
+  alert('ပရောဂျက် ဖျက်ပြီးပါပြီ။');
+}
+
+refreshProjects();
 </script>
 </body>
 </html>
