@@ -48,6 +48,8 @@ label{display:block;margin:12px 0}
 <div class="project-box">
   <h3>📁 My Projects — ကျွန်ုပ်၏ ပရောဂျက်များ</h3>
 
+<button type="button" onclick="backupProjects()">📦 Backup ထုတ်မယ်</button>
+  
   <label for="projectName">ပရောဂျက်အမည်</label>
   <input
     type="text"
@@ -221,6 +223,23 @@ function deleteProject() {
 }
 
 refreshProjects();
+
+function backupProjects() {
+  const projects = getProjects();
+  const data = JSON.stringify(projects, null, 2);
+  const blob = new Blob([data], {
+    type: 'application/json'
+  });
+
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'myanmar_code_backup.json';
+  link.click();
+
+  URL.revokeObjectURL(url);
+  alert('Backup ဖိုင် ထုတ်ပေးပြီးပါပြီ။');
+  }
 </script>
 </body>
 </html>
