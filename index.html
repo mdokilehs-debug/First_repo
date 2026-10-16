@@ -83,7 +83,6 @@ function loadHTMLFile(event){
   };
   reader.readAsText(file);
 }
-</script>
 const STORAGE_KEY = 'myanmar_code_saved';
 
 const codeBox = document.getElementById('code');
@@ -96,5 +95,6 @@ const savedCode = localStorage.getItem(STORAGE_KEY);
 if (savedCode !== null) {
   codeBox.value = savedCode;
 }
+</script>
 </body>
 </html>
